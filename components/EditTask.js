@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   View,
   Text,
@@ -14,25 +14,29 @@ import {v4 as uuidv4} from 'uuid';
 import {scheduledNotification} from '../services/LocalNotificationService';
 import colors from '../assets/colors';
 
-const CreateTask = ({navigation}) => {
+const EditTask = ({navigation, route}) => {
   const [date, setDate] = useState(new Date());
   const [task, setTask] = useState('');
 
-  const saveData = async value => {
+  const {item} = route.params;
+
+  useEffect(() => {
+    setTask(item.todo);
+    setDate(new Date(item.reminderdate));
+  }, [item]);
+
+  const editData = async () => {
     try {
       const prevTodo = await AsyncStorage.getItem('todos');
       const values = JSON.parse(prevTodo);
-      let tasksList = [];
-      if (prevTodo !== null && values.length > 0) {
-        tasksList = [
-          ...values,
-          {index: uuidv4(), todo: task.trim(), reminderdate: date},
-        ];
-      } else {
-        tasksList = [{index: uuidv4(), todo: task.trim(), reminderdate: date}];
-      }
+      const filteredtask = values.find(task => task.index === item.index);
+      console.log('filteredtask', filteredtask);
+
+      filteredtask.todo = task;
+      filteredtask.reminderdate = date;
+
       scheduledNotification(task, date);
-      await AsyncStorage.setItem('todos', JSON.stringify(tasksList));
+      await AsyncStorage.setItem('todos', JSON.stringify(values));
       setDate(new Date());
       setTask('');
       navigation.navigate('Home');
@@ -45,7 +49,7 @@ const CreateTask = ({navigation}) => {
     <View style={styles.container}>
       <View>
         <View style={styles.headerWrapper}>
-          <Text style={styles.headerTitle}>Create Task</Text>
+          <Text style={styles.headerTitle}>Edit Task</Text>
         </View>
         <View style={styles.formWrapper}>
           <View style={styles.formControlWrapper}>
@@ -59,12 +63,7 @@ const CreateTask = ({navigation}) => {
 
           <View style={styles.formControlWrapper}>
             <Text style={styles.formControlTitle}>Reminder Date</Text>
-            <DatePicker
-              date={date}
-              onDateChange={e => {
-                setDate(e);
-              }}
-            />
+            <DatePicker date={date} onDateChange={e => setDate(e)} />
           </View>
         </View>
       </View>
@@ -72,7 +71,7 @@ const CreateTask = ({navigation}) => {
         <TouchableOpacity
           style={styles.addTaskButton}
           onPress={() => {
-            saveData();
+            editData();
           }}>
           <Text style={styles.buttonText}>Submit</Text>
         </TouchableOpacity>
@@ -125,4 +124,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default CreateTask;
+export default EditTask;

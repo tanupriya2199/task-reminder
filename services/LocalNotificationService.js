@@ -4,6 +4,7 @@ export const scheduledNotification = (task, date) => {
   PushNotification.localNotificationSchedule({
     channelId: 'task-reminder-channel-id',
     message: `Complete ${task}`,
-    date: new Date(date),
+    date: date,
+    allowWhileIdle: true,
   });
 };

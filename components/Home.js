@@ -1,7 +1,18 @@
 import React, {useState, useEffect, useCallback} from 'react';
-import {View, Text, StyleSheet, FlatList, TouchableOpacity} from 'react-native';
+import {
+  View,
+  Text,
+  StyleSheet,
+  FlatList,
+  TouchableOpacity,
+  ScrollView,
+  SafeAreaView,
+} from 'react-native';
 import {useFocusEffect} from '@react-navigation/native';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import Entypo from 'react-native-vector-icons/Entypo';
+import moment from 'moment';
+
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import colors from '../assets/colors';
@@ -39,25 +50,43 @@ const Home = ({navigation}) => {
   const renderTaskItem = ({item}) => {
     return (
       <View style={styles.taskItemWrapper}>
-        <Text style={styles.taskItemTitle}>{item.todo}</Text>
-        <MaterialCommunityIcons
-          onPress={() => {
-            deleteTask(item.index);
-          }}
-          name="delete"
-          size={20}
-          color={colors.black}
-        />
+        <View>
+          <Text style={styles.taskItemTitle}>{item.todo}</Text>
+          <Text>{moment(item.reminderdate).format('ll')}</Text>
+          <Text>{moment(new Date(item.reminderdate)).format('h:m A')}</Text>
+        </View>
+        <View style={styles.taskItemActionsWrapper}>
+          <Entypo
+            name="edit"
+            style={styles.editIcon}
+            size={20}
+            color={colors.black}
+            onPress={() => {
+              navigation.navigate('EditTask', {item});
+            }}
+          />
+          <MaterialCommunityIcons
+            onPress={() => {
+              deleteTask(item.index);
+            }}
+            name="delete"
+            size={20}
+            color={colors.black}
+          />
+        </View>
       </View>
     );
   };
 
   return (
     <View style={styles.container}>
-      <View>
-        <View style={styles.headerWrapper}>
-          <Text style={styles.headerTitle}>My Tasks</Text>
-        </View>
+      {/* header section */}
+      <SafeAreaView style={styles.headerWrapper}>
+        <Text style={styles.headerTitle}>My Tasks</Text>
+      </SafeAreaView>
+
+      {/* Task List section */}
+      <ScrollView>
         <View style={styles.taskListWrapper}>
           {taskList && taskList.length > 0 ? (
             <FlatList
@@ -73,7 +102,8 @@ const Home = ({navigation}) => {
             </View>
           )}
         </View>
-      </View>
+      </ScrollView>
+      {/* Footer section */}
       <View style={styles.addTaskWrapper}>
         <TouchableOpacity
           style={styles.addTaskButton}
@@ -92,10 +122,10 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: colors.white,
     paddingTop: 20,
-    justifyContent: 'space-between',
     paddingHorizontal: 20,
   },
   headerWrapper: {
+    // flex: 1,
     alignItems: 'center',
     marginBottom: 20,
   },
@@ -110,7 +140,15 @@ const styles = StyleSheet.create({
   noTaskText: {
     fontSize: 18,
   },
-  taskListWrapper: {},
+  taskItemActionsWrapper: {
+    flexDirection: 'row',
+  },
+  editIcon: {
+    marginRight: 10,
+  },
+  taskListWrapper: {
+    flex: 5,
+  },
   addTaskWrapper: {},
   addTaskButton: {
     backgroundColor: colors.purple,
@@ -118,7 +156,7 @@ const styles = StyleSheet.create({
     paddingVertical: 20,
     borderRadius: 25,
     alignItems: 'center',
-    marginBottom: 15,
+    marginVertical: 10,
   },
   buttonText: {
     color: colors.white,
@@ -129,6 +167,7 @@ const styles = StyleSheet.create({
   taskItemWrapper: {
     flexDirection: 'row',
     justifyContent: 'space-between',
+    alignItems: 'center',
     backgroundColor: colors.lightGreen,
     padding: 15,
     borderRadius: 25,
