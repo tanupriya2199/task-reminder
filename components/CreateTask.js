@@ -11,7 +11,6 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import 'react-native-get-random-values';
 import {v4 as uuidv4} from 'uuid';
 
-import {scheduledNotification} from '../services/LocalNotificationService';
 import colors from '../assets/colors';
 
 const CreateTask = ({navigation}) => {
@@ -26,12 +25,24 @@ const CreateTask = ({navigation}) => {
       if (prevTodo !== null && values.length > 0) {
         tasksList = [
           ...values,
-          {index: uuidv4(), todo: task.trim(), reminderdate: date},
+          {
+            index: uuidv4(),
+            todo: task.trim(),
+            reminderdate: date,
+            isNotificationSent: false,
+          },
         ];
       } else {
-        tasksList = [{index: uuidv4(), todo: task.trim(), reminderdate: date}];
+        tasksList = [
+          {
+            index: uuidv4(),
+            todo: task.trim(),
+            reminderdate: date,
+            isNotificationSent: false,
+          },
+        ];
       }
-      scheduledNotification(task, date);
+      // scheduledNotification(task, date);
       await AsyncStorage.setItem('todos', JSON.stringify(tasksList));
       setDate(new Date());
       setTask('');

@@ -86,9 +86,41 @@ const Home = ({navigation}) => {
       </SafeAreaView>
 
       {/* Task List section */}
-      <ScrollView>
+      <ScrollView nestedScrollEnabled>
         <View style={styles.taskListWrapper}>
-          {taskList && taskList.length > 0 ? (
+          {taskList &&
+            taskList.length > 0 &&
+            taskList.map(item => (
+              <View key={item.index} style={styles.taskItemWrapper}>
+                <View>
+                  <Text style={styles.taskItemTitle}>{item.todo}</Text>
+                  <Text>{moment(item.reminderdate).format('ll')}</Text>
+                  <Text>
+                    {moment(new Date(item.reminderdate)).format('h:m A')}
+                  </Text>
+                </View>
+                <View style={styles.taskItemActionsWrapper}>
+                  <Entypo
+                    name="edit"
+                    style={styles.editIcon}
+                    size={20}
+                    color={colors.black}
+                    onPress={() => {
+                      navigation.navigate('EditTask', {item});
+                    }}
+                  />
+                  <MaterialCommunityIcons
+                    onPress={() => {
+                      deleteTask(item.index);
+                    }}
+                    name="delete"
+                    size={20}
+                    color={colors.black}
+                  />
+                </View>
+              </View>
+            ))}
+          {/* {taskList && taskList.length > 0 ? (
             <FlatList
               renderItem={renderTaskItem}
               keyExtractor={item => item.index}
@@ -100,7 +132,7 @@ const Home = ({navigation}) => {
                 No tasks yet. Please add some
               </Text>
             </View>
-          )}
+          )} */}
         </View>
       </ScrollView>
       {/* Footer section */}
