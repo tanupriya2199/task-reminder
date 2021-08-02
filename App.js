@@ -10,6 +10,9 @@ import Home from './components/Home';
 import CreateTask from './components/CreateTask';
 import EditTask from './components/EditTask';
 import {localNotificationSchedule} from './services/LocalNotificationService';
+import LandingPage from './components/LandingPage';
+import Chats from './components/Chats';
+import Comments from './components/Comments';
 
 const Stack = createStackNavigator();
 
@@ -122,6 +125,13 @@ function App() {
           options={{
             headerShown: false,
           }}
+          name="LandingPage"
+          component={LandingPage}
+        />
+        <Stack.Screen
+          options={{
+            headerShown: false,
+          }}
           name="Home"
           component={Home}
         />
@@ -138,6 +148,20 @@ function App() {
           }}
           name="EditTask"
           component={EditTask}
+        />
+        <Stack.Screen
+          options={{
+            headerShown: false,
+          }}
+          name="Chats"
+          component={Chats}
+        />
+        <Stack.Screen
+          options={{
+            headerShown: false,
+          }}
+          name="Comments"
+          component={Comments}
         />
       </Stack.Navigator>
     </NavigationContainer>
