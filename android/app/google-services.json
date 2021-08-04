@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "172641811654",
+    "project_id": "react-native-chat-app-d0b82",
+    "storage_bucket": "react-native-chat-app-d0b82.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:172641811654:android:0f6723000c62ad928b2bc7",
+        "android_client_info": {
+          "package_name": "com.taskreminder"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "172641811654-804tr846hpvp48dm83bbvqq4ii17oofv.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDLOmzHkkZGCtwrv6UKLAVMBIWiib2Vma4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "172641811654-804tr846hpvp48dm83bbvqq4ii17oofv.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
