@@ -13,6 +13,9 @@ import {localNotificationSchedule} from './services/LocalNotificationService';
 import LandingPage from './components/LandingPage';
 import Chats from './components/Chats';
 import Comments from './components/Comments';
+import SignUp from './components/SignUp';
+import SignIn from './components/SignIn';
+import Chat from './components/Chat';
 
 const Stack = createStackNavigator();
 
@@ -125,6 +128,20 @@ function App() {
           options={{
             headerShown: false,
           }}
+          name="SignIn"
+          component={SignIn}
+        />
+        <Stack.Screen
+          options={{
+            headerShown: false,
+          }}
+          name="SignUp"
+          component={SignUp}
+        />
+        <Stack.Screen
+          options={{
+            headerShown: false,
+          }}
           name="LandingPage"
           component={LandingPage}
         />
@@ -162,6 +179,13 @@ function App() {
           }}
           name="Comments"
           component={Comments}
+        />
+        <Stack.Screen
+          options={{
+            headerShown: false,
+          }}
+          name="Chat"
+          component={Chat}
         />
       </Stack.Navigator>
     </NavigationContainer>

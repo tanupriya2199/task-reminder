@@ -63,6 +63,7 @@ const CreateTask = ({navigation}) => {
             <Text style={styles.formControlTitle}>Title</Text>
             <TextInput
               style={styles.formControlInput}
+              placeholder="Create your task....."
               onChangeText={text => setTask(text)}
               value={task}
             />
@@ -113,6 +114,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: colors.lightBlack,
     padding: 10,
+    borderRadius: 25,
   },
   addTaskWrapper: {},
   addTaskButton: {
